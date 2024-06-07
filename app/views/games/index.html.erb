@@ -1,0 +1,11 @@
+<%= form_with(url: games_path, method: :get, local: true) do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search games" %>
+  <%= submit_tag "Search" %>
+<% end %>
+<%= @games.each do |game| %>
+  <div>
+    <h2><%= link_to game.title, game %></h2>
+    <p><%= game.description %></p>
+    <p><%= number_to_currency(game.price) %></p>
+  </div>
+<% end %>

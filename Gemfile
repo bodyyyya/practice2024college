@@ -65,3 +65,10 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "tailwindcss-rails", "~> 2.6"
+
+gem "devise"
+
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
