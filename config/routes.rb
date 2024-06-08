@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'cart_items/create'
-  get 'cart_items/update'
-  get 'cart_items/destroy'
   get 'carts/show'
   get 'games/index'
   get 'games/show'
@@ -12,10 +9,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   devise_for :users
 
-  resources :games, only: [:index, :show]
+  resources :games
   resource :cart, only: [:show]
-  resources :cart_items, only: [:create, :update, :destroy]
-  resources :carts, only: [:show]
   resources :cart_items, only: [:create, :update, :destroy]
 
   root 'games#index'

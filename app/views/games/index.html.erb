@@ -1,11 +1,84 @@
-<%= form_with(url: games_path, method: :get, local: true) do %>
-  <%= text_field_tag :query, params[:query], placeholder: "Search games" %>
-  <%= submit_tag "Search" %>
-<% end %>
-<%= @games.each do |game| %>
-  <div>
-    <h2><%= link_to game.title, game %></h2>
-    <p><%= game.description %></p>
-    <p><%= number_to_currency(game.price) %></p>
+<div class="container mx-auto mt-8">
+  <div class="flex">
+    <!-- Filters Section -->
+    <div class="w-1/4 p-4 bg-white rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-4">Filters</h2>
+      <form>
+        <!-- Price Filter -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="price">Price</label>
+          <input type="range" min="0" max="15000" class="w-full">
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="category">Category</label>
+          <select id="category" class="w-full border-gray-300 rounded-md">
+            <option>All</option>
+            <option>Board Games</option>
+            <option>Video Games</option>
+          </select>
+        </div>
+        
+        <!-- Availability Filter -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2">Availability</label>
+          <div>
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox" checked>
+              <span class="ml-2">In Stock</span>
+            </label>
+          </div>
+          <div>
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox">
+              <span class="ml-2">Out of Stock</span>
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded">Apply Filters</button>
+      </form>
+    </div>
+    
+    <!-- Games List Section -->
+    <div class="w-3/4 p-4">
+      <div class="flex items-center mb-4">
+        <%= form_with(url: games_path, method: :get, local: true, class: "flex w-full") do %>
+          <input type="text" name="query" placeholder="Search games..." class="w-full p-2 border border-gray-300 rounded-lg">
+          <button type="submit" class="ml-2 bg-blue-500 text-white font-bold py-2 px-4 rounded">Search</button>
+        <% end %>
+        <% if user_signed_in? && current_user.admin? %>
+          <%= link_to 'New Game', new_game_path, class: 'ml-4 bg-green-500 text-white font-bold py-2 px-4 rounded' %>
+        <% end %>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-4">
+        <% @games.each do |game| %>
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <% if game.image.attached? %>
+              <%= image_tag game.image, class: "w-full h-40 object-cover rounded-md" %>
+            <% else %>
+              <div class="w-full h-40 object-cover rounded-md bg-gray-200"></div>
+            <% end %>
+            <h3 class="text-lg font-bold mt-2"><%= link_to game.title, game %></h3>
+            <p class="text-gray-700"><%= game.description.truncate(100) %></p>
+            <div class="mt-2">
+              <span class="text-xl font-bold text-green-600"><%= number_to_currency(game.price) %></span>
+              <%= form_with url: cart_items_path, method: :post, local: true do |f| %>
+                <%= hidden_field_tag :game_id, game.id %>
+                <%= submit_tag 'Buy', class: "bg-green-500 text-white font-bold py-1 px-2 rounded" %>
+              <% end %>
+            </div>
+            <% if user_signed_in? && current_user.admin? %>
+              <div class="mt-4 flex space-x-2">
+                <%= link_to 'Edit', edit_game_path(game), class: 'bg-yellow-500 text-white font-bold py-1 px-2 rounded' %>
+                <%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' }, class: 'bg-red-500 text-white font-bold py-1 px-2 rounded' %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>

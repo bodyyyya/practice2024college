@@ -1,6 +1,7 @@
 class Game < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  has_one_attached :image
 
   settings do
     mappings dynamic: false do
