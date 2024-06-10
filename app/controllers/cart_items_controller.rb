@@ -8,7 +8,7 @@ class CartItemsController < ApplicationController
     if @cart_item
       @cart_item.quantity += 1
     else
-      @cart_item = @cart.cart_items.build(game_id: params[:game_id], quantity: 1)
+      @cart_item = @cart.cart_items.build(game_id: params[:game_id], quantity: 1, price: Game.find(params[:game_id]).price)
     end
 
     if @cart_item.save

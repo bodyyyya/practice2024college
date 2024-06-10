@@ -15,13 +15,13 @@
         <% @cart.cart_items.each do |item| %>
           <tr>
             <td class="py-2 text-center px-4 border-b"><%= item.game.title %></td>
-            <td class="py-2 text-center px-4 border-b"><%= number_to_currency(@cart.total_price, unit: "₴") %></td>
+            <td class="py-2 text-center px-4 border-b"><%= number_to_currency(item.price || item.game.price, unit: "₴") %></td>
             <td class="py-2 px-4 text-center border-b">
               <%= form_with(model: item, local: true, method: :patch, class: "inline") do |f| %>
                 <%= f.number_field :quantity, value: item.quantity, min: 1, class: "w-16 p-2 border border-gray-300 rounded-lg quantity-input" %>
               <% end %>
             </td>
-            <td class="py-2 text-center px-4 border-b"><%= number_to_currency(@cart.total_price, unit: "₴") %></td>
+            <td class="py-2 text-center px-4 border-b"><%= number_to_currency(item.total_price, unit: "₴") %></td>
             <td class="py-2 text-center px-4 border-b">
               <%= link_to 'Remove', cart_item_path(item), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'delete-link bg-red-500 text-white font-bold py-1 px-2 rounded' %>
             </td>
