@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>VideoGameStore</title>
+    <title>Game Galaxy</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'tailwind', 'data-turbo-track': 'reload' %>
@@ -11,9 +11,10 @@
   <body class="bg-gray-100">
     <header class="bg-gray-800 p-4">
       <div class="container mx-auto flex justify-between items-center">
-        <div class="text-white text-lg font-bold">Video Game Store</div>
+        <%= link_to root_path, class: 'text-white text-lg font-bold' do %>
+          <div>Game Galaxy</div>
+        <% end %>
         <nav class="flex items-center space-x-4">
-          <%= link_to 'Home', root_path, class: 'text-white' %>
           <% if user_signed_in? %>
             <div class="text-white"><%= current_user.email %></div>
             <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'text-white flex items-center' do %>

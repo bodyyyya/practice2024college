@@ -3,6 +3,8 @@ class Game < ApplicationRecord
   include Elasticsearch::Model::Callbacks
   has_one_attached :image
 
+  has_many :cart_items, dependent: :destroy
+
   settings do
     mappings dynamic: false do
       indexes :title, type: :text, analyzer: 'english'

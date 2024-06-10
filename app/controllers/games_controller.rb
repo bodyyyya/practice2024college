@@ -4,10 +4,15 @@ class GamesController < ApplicationController
   before_action :authorize_admin!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    if params[:query].present?
-      @games = Game.search(params[:query]).records.to_a
-    else
-      @games = Game.all
+    @games = if params[:query].present?
+               Game.search(params[:query]).records.to_a
+             else
+               Game.all
+             end
+
+    if params[:price].present?
+      price = params[:price].to_i
+      @games = @games.where('price <= ?', price)
     end
   end
 
@@ -41,6 +46,8 @@ class GamesController < ApplicationController
   def destroy
     @game.destroy
     redirect_to games_url, notice: 'Game was successfully destroyed.'
+  rescue ActiveRecord::InvalidForeignKey => e
+    redirect_to games_url, alert: 'Game could not be destroyed because it has dependent records.'
   end
 
   private
