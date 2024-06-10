@@ -5,10 +5,18 @@ class Game < ApplicationRecord
 
   has_many :cart_items, dependent: :destroy
 
-  settings do
+  settings index: {
+    analysis: {
+      analyzer: {
+        default: {
+          type: 'standard'
+        }
+      }
+    }
+  } do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: 'english'
-      indexes :description, type: :text, analyzer: 'english'
+      indexes :title, type: :text, analyzer: 'standard'
+      indexes :description, type: :text, analyzer: 'standard'
     end
   end
 
@@ -18,5 +26,5 @@ class Game < ApplicationRecord
 end
 
 # Ensure the index is created and data is imported
-Game.__elasticsearch__.create_index!
+Game.__elasticsearch__.create_index! force: true
 Game.import

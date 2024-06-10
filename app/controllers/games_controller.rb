@@ -5,7 +5,13 @@ class GamesController < ApplicationController
 
   def index
     @games = if params[:query].present?
-               Game.search(params[:query]).records.to_a
+               Game.search(query: {
+                 multi_match: {
+                   query: params[:query],
+                   fields: [:title, :description],
+                   type: 'phrase_prefix'
+                 }
+               }).records.to_a
              else
                Game.all
              end
