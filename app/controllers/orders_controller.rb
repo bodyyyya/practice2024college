@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
     if @cart.cart_items.empty?
       redirect_to games_path, alert: "Your cart is empty. Add some games to proceed."
     end
+    @order = Order.new
   end
 
   def create
@@ -23,6 +24,7 @@ class OrdersController < ApplicationController
       current_user.cart.cart_items.destroy_all # Clear the cart after order is placed
       redirect_to root_path, notice: "Your order has been placed successfully."
     else
+      @cart = current_user.cart
       render :new, alert: "There was an error placing your order. Please try again."
     end
   end

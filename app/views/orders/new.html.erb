@@ -30,10 +30,15 @@
     </table>
     
     <div class="mt-8">
-      <%= form_with model: Order.new, url: orders_path, local: true do |f| %>
+      <%= form_with model: @order, url: orders_path, local: true do |f| %>
         <div class="mb-4">
           <%= f.label :shipping_address, "Shipping Address", class: "block text-gray-700 font-bold mb-2" %>
-          <%= f.text_area :shipping_address, class: "w-full p-2 border border-gray-300 rounded-lg" %>
+          <%= f.text_area :shipping_address, class: "w-full p-2 border border-gray-300 rounded-lg", id: "shipping_address" %>
+          <div id="email-error" class="text-red-500 mt-2" style="display: none;">Please enter a valid email address.</div>
+        </div>
+        <div class="mb-4">
+          <%= f.label :payment_method, "Payment Method", class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.select :payment_method, options_for_select(["Credit Card", "Bank Transfer"]), {}, class: "w-full p-2 border border-gray-300 rounded-lg" %>
         </div>
         <div class="flex justify-end">
           <%= f.submit "Place Order", class: "bg-green-500 text-white font-bold py-2 px-4 rounded" %>
@@ -42,3 +47,19 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const emailField = document.getElementById("shipping_address");
+    const errorDiv = document.getElementById("email-error");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    emailField.addEventListener("input", function() {
+      if (emailRegex.test(emailField.value)) {
+        errorDiv.style.display = "none";
+      } else {
+        errorDiv.style.display = "block";
+      }
+    });
+  });
+</script>
