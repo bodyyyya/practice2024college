@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'orders/new'
   get 'carts/show'
   get 'games/index'
   get 'games/show'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   resources :games
   resource :cart, only: [:show]
   resources :cart_items, only: [:create, :update, :destroy]
+  resources :orders, only: [:new, :create]
 
   root 'games#index'
   # Defines the root path route ("/")

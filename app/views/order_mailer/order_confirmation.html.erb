@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your order, <%= @user.email %>!</p>
+    <p>Here are the details of your order:</p>
+    <ul>
+      <% @order.cart_items.each do |item| %>
+        <li><%= item.game.title %> - <%= item.quantity %> x <%= number_to_currency(item.price, unit: "₴") %></li>
+      <% end %>
+    </ul>
+    <p>Total: <%= number_to_currency(@order.total_price, unit: "₴") %></p>
+  </body>
+</html>

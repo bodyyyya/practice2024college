@@ -36,6 +36,9 @@
         </tr>
       </tfoot>
     </table>
+    <div class="mt-4 flex justify-end">
+      <%= link_to 'Order', new_order_path, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+    </div>
   <% else %>
     <p>Your cart is empty.</p>
   <% end %>

@@ -70,5 +70,7 @@ gem "tailwindcss-rails", "~> 2.6"
 
 gem "devise"
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
