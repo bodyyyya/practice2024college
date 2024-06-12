@@ -1,3 +1,4 @@
+# app/controllers/cart_items_controller.rb
 class CartItemsController < ApplicationController
   before_action :authenticate_user!
 
@@ -11,10 +12,9 @@ class CartItemsController < ApplicationController
       @cart_item = @cart.cart_items.build(game_id: params[:game_id], quantity: 1, price: Game.find(params[:game_id]).price)
     end
 
-    if @cart_item.save
-      redirect_to cart_path, notice: 'Item added to cart.'
-    else
-      redirect_to games_path, alert: 'Unable to add item to cart.'
+    @cart_item.save
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -31,6 +31,11 @@ class CartItemsController < ApplicationController
     @cart_item = CartItem.find(params[:id])
     @cart_item.destroy
     redirect_to cart_path, notice: 'Item removed from cart.'
+  end
+
+  def count
+    @total_items = current_user.cart.total_items
+    render json: { total_items: @total_items }
   end
 
   private
