@@ -4,7 +4,7 @@ Thank you for your order, <%= @user.email %>!
 
 Here are the details of your order:
 <% @order.cart_items.each do |item| %>
-  * <%= item.game.title %> - <%= item.quantity %> x <%= number_to_currency(item.price, unit: "₴") %>
+  * <%= item.game.title %> - <%= item.quantity %> x <%= number_to_currency(item.price, unit: "₴") %> - Key: <%= item.generated_key %>
 <% end %>
 
 Total: <%= number_to_currency(@order.total_price, unit: "₴") %>

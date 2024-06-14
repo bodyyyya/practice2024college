@@ -15,10 +15,11 @@ class OrdersController < ApplicationController
     @order.total_price = current_user.cart.total_price
 
     if @order.save
-      # Associate cart items with the order
+      
       current_user.cart.cart_items.update_all(order_id: @order.id)
 
-      # Send the order confirmation email
+      @order.generate_keys_for_cart_items
+
       OrderMailer.order_confirmation(@order).deliver_now
 
       current_user.cart.cart_items.destroy_all # Clear the cart after order is placed

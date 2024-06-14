@@ -3,6 +3,8 @@ class CartItem < ApplicationRecord
   belongs_to :game
   belongs_to :order, optional: true
 
+  attr_accessor :generated_key
+
   before_create :set_price
 
   def total_price
