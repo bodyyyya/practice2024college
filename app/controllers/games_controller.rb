@@ -16,16 +16,9 @@ class GamesController < ApplicationController
                Game.all
              end
 
-    if params[:min_price].present? && params[:max_price].present?
-      min_price = params[:min_price].to_i
-      max_price = params[:max_price].to_i
-      @games = @games.where(price: min_price..max_price)
-    elsif params[:min_price].present?
-      min_price = params[:min_price].to_i
-      @games = @games.where('price >= ?', min_price)
-    elsif params[:max_price].present?
-      max_price = params[:max_price].to_i
-      @games = @games.where('price <= ?', max_price)
+    if params[:price].present?
+      price = params[:price].to_i
+      @games = @games.where('price <= ?', price)
     end
   end
 
