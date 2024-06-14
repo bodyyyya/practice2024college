@@ -11,7 +11,6 @@ Game Galaxy is an online video game store where users can browse and purchase ga
 ### Prerequisites
 - Ruby 3.3.0
 - Rails 7.1.3.3
-- Node.js and Yarn
 - Elasticsearch
 - SQLite3
 ## Setup
