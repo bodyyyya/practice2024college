@@ -3,9 +3,15 @@ class CartItem < ApplicationRecord
   belongs_to :game
   belongs_to :order, optional: true
 
-  attr_accessor :generated_key
-
   before_create :set_price
+
+  def generated_keys
+    JSON.parse(self[:generated_keys] || '[]')
+  end
+
+  def generated_keys=(keys)
+    self[:generated_keys] = keys.to_json
+  end
 
   def total_price
     (price || game.price) * quantity

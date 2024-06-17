@@ -15,7 +15,6 @@ class OrdersController < ApplicationController
     @order.total_price = current_user.cart.total_price
 
     if @order.save
-      
       current_user.cart.cart_items.update_all(order_id: @order.id)
 
       @order.generate_keys_for_cart_items
@@ -23,7 +22,6 @@ class OrdersController < ApplicationController
       OrderMailer.order_confirmation(@order).deliver_now
 
       current_user.cart.cart_items.destroy_all # Clear the cart after order is placed
-      redirect_to root_path, notice: "Your order has been placed successfully."
     else
       @cart = current_user.cart
       render :new, alert: "There was an error placing your order. Please try again."
